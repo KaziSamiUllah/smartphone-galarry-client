@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Categories = () => {
+const Categories = ({phones}) => {
   // State for selected buttons
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
@@ -24,8 +24,6 @@ const Categories = () => {
         break;
     }
   };
-
-
 
 
   const brands = [

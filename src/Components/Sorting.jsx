@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { FaFilter } from "react-icons/fa";
 
-const Filters = () => {
-  const [selectedOption, setSelectedOption] = useState("");
+const Sorting = ({setSortBy},{sortBy}) => {
+  
 
   const handleChange = (event) => {
-    setSelectedOption(event.target.value);
+    setSortBy(event.target.value);
   };
 
   return (
@@ -15,7 +15,7 @@ const Filters = () => {
       <select
         id="filter-select"
         className="select bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-        value={selectedOption}
+        value={sortBy}
         onChange={handleChange}
       >
         <option value="" disabled>Select an option</option>
@@ -27,4 +27,4 @@ const Filters = () => {
   );
 };
 
-export default Filters;
+export default Sorting;
