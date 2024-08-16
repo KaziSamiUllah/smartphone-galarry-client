@@ -1,75 +1,65 @@
+// import React from "react";
+
+import axios from "axios";
 import { useEffect, useState } from "react";
 
-const Categories = ({phones}) => {
-  // State for selected buttons
-  const [selectedBrand, setSelectedBrand] = useState(null);
-  const [selectedType, setSelectedType] = useState(null);
-  const [selectedPrice, setSelectedPrice] = useState(null);
+const Categories = ({
+  setSelectedBrand,
+  setSelectedType,
+  setSelectedPrice,
+  selectedBrand,
+  selectedType,
+  selectedPrice,
+}) => {
+  const [phonesData, setPhonesData] = useState([]);
 
-  console.log(selectedBrand, selectedPrice, selectedType);
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/category")
+      .then((res) => {
+        setPhonesData(res.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching phones data:", error);
+      });
+  }, []);
 
-  // Function to handle button selection
-  const handleSelection = (category, value) => {
-    switch (category) {
-      case "brand":
-        setSelectedBrand(value);
-        break;
-      case "type":
-        setSelectedType(value);
-        break;
-      case "price":
-        setSelectedPrice(value);
-        break;
-      default:
-        break;
-    }
-  };
-
-
-  const brands = [
-    "Brand 1",
-    "Brand 2",
-    "Brand 3",
-    "Brand 4",
-    "Brand 5",
-    "Brand 6",
-    "Brand 7",
-  ];
-  const types = [
-    "Type 1",
-    "Type 2",
-    "Type 3",
-    "Type 4",
-    "Type 5",
-    "Type 6",
-    "Type 7",
-  ];
+  const brandNames = [...new Set(phonesData?.map((phone) => phone.Brand))];
+  const deviceType = [...new Set(phonesData?.map((phone) => phone.Category))];
 
   const priceRange = [
-    "10,000 - 15,000",
-    "15,000 - 20,000",
-    "20,000 - 25,000",
-    "25,000 - 30,000",
-    "30,000 - 35,000",
-    "35,000 - 40,000",
-    "40,000 - 45,000",
-  ]
+    "0 - 49.99",
+    "50 - 99.99",
+    "100 - 149.99",
+    "150 - 199.99",
+    "200 - 299.99",
+    "300 - 399.99",
+    "400 - 499.99",
+    "500 - 599.99",
+    "600 - 699.99",
+    "700 - 799.99",
+    "800 - 899.99",
+    "900 - 999.99",
+    "1000 - 1199.99",
+    "1200 - 1399.99",
+    "1400 - 1500",
+  ];
 
   return (
     <div>
       <h1 className="text-3xl mb-5">Categories</h1>
       <div>
         <h1 className="text-xl font-bold mt-5 mb-2">Select brand</h1>
-        <div className="flex gap-5">
-          {brands.map((brand, index) => (
+        <div className="flex-wrap space-x-2 space-y-3">
+          {brandNames.map((brand, index) => (
+  
+
             <button
               key={index}
               className={`btn btn-outline ${
-                selectedBrand === brand
-                  ? "bg-blue-500 text-white"
-                  : "bg-blue-50"
+                selectedBrand === brand ? "bg-blue-500 text-white" : "bg-blue-50"
               }`}
-              onClick={() => handleSelection("brand", brand)}
+              onClick={() => setSelectedBrand(brand)}
             >
               {brand}
             </button>
@@ -79,14 +69,22 @@ const Categories = ({phones}) => {
 
       <div>
         <h1 className="text-xl font-bold mt-5 mb-2 ">Phone Type</h1>
-        <div className="flex gap-5">
-          {types.map((type, index) => (
+        <div className="flex-wrap space-x-2 space-y-3">
+          {deviceType.map((type, index) => (
+            // <button
+            //   key={index}
+            //   className="btn btn-outline"
+            //   onClick={() => setSelectedType(type)}
+            // >
+            //   {type}
+            // </button>
+
             <button
               key={index}
               className={`btn btn-outline ${
                 selectedType === type ? "bg-blue-500 text-white" : "bg-blue-50"
               }`}
-              onClick={() => handleSelection("type", type)}
+              onClick={() => setSelectedType(type)}
             >
               {type}
             </button>
@@ -96,23 +94,33 @@ const Categories = ({phones}) => {
 
       <div>
         <h1 className="text-xl font-bold mt-5 mb-2">Price Range</h1>
-        <div className="flex gap-5">
+        <div className="flex-wrap space-x-2 space-y-3">
           {priceRange.map((price, index) => (
+            // <button
+            //   key={index}
+            //   className="btn btn-outline"
+            //   onClick={() => setSelectedPrice(price)}
+            // >
+            //   {price}
+            // </button>
             <button
-              key={index}
-              className={`btn btn-outline ${
-                selectedPrice === price
-                  ? "bg-blue-500 text-white"
-                  : "bg-blue-50"
-              }`}
-              onClick={() => handleSelection("price", price)}
-            >
-              {price}
-            </button>
+            key={index}
+            className={`btn btn-outline ${
+              selectedPrice === price ? "bg-blue-500 text-white" : "bg-blue-50"
+            }`}
+            onClick={() => setSelectedPrice(price)}
+          >
+            {price}
+          </button>
+
+
+
+
+
+
           ))}
         </div>
       </div>
-      <button className="btn my-5 w-1/5">Search</button>
     </div>
   );
 };

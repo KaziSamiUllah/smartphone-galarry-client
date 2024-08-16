@@ -6,41 +6,88 @@ import Searchbar from "../Components/Searchbar";
 import Sorting from "../Components/Sorting";
 
 const HomePage = () => {
-  const [phones, setPhones] = useState();
+  const [phones, setPhones] = useState([]);
   const [sortBy, setSortBy] = useState("");
-  console.log(sortBy);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [selectedBrand, setSelectedBrand] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
+  const [selectedPrice, setSelectedPrice] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/phones")
-      .then((res) => res.json())
-      .then((data) => {
-        let sortedPhones = [...data];
+    const fetchPhones = () => {
+      let url = `http://localhost:5000/phones?search=${search}&page=${page}&limit=10&sortBy=${sortBy}`;
 
-        if (sortBy === "PriceToHigh") {
-          sortedPhones.sort((a, b) => b.Price - a.Price);
-        } else if (sortBy === "PriceToLow") {
-          sortedPhones.sort((a, b) => a.Price - b.Price);
-        }
-        else if (sortBy === "Newest") {
+      if (selectedBrand) {
+        url += `&brand=${selectedBrand}`;
+      }
+
+      if (selectedType) {
+        url += `&type=${selectedType}`;
+      }
+
+      if (selectedPrice) {
+        url += `&price=${selectedPrice}`;
+      }
+
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+          let sortedPhones = [...data.phones];
+
+          if (sortBy === "PriceToHigh") {
+            sortedPhones.sort((a, b) => b.Price - a.Price);
+          } else if (sortBy === "PriceToLow") {
+            sortedPhones.sort((a, b) => a.Price - b.Price);
+          } else if (sortBy === "Newest") {
             sortedPhones.sort((a, b) => a.CreationDate - b.CreationDate);
           }
 
-        setPhones(sortedPhones);
-      });
-  }, [sortBy])
+          setPhones(sortedPhones);
+          setTotalPages(Math.ceil(data.total / 10));
+        });
+    };
+
+    fetchPhones();
+  }, [sortBy, search, page, selectedBrand, selectedType, selectedPrice]);
+
+  const handleSearch = (searchTerm) => {
+    setSearch(searchTerm);
+    setPage(1); // Reset to first page when a new search is performed
+  };
 
   return (
     <div>
       <div className="mx-16 my-10">
         <div className="grid grid-cols-2">
-          <Searchbar></Searchbar>
-          <Sorting setSortBy={setSortBy} sortby={sortBy}></Sorting>
+          <Searchbar handleSearch={handleSearch} />
+          <Sorting setSortBy={setSortBy} sortBy={sortBy} />
         </div>
         <div>
-          <Categories phones={phones}></Categories>
+          <Categories
+            phones={phones}
+            setSelectedBrand={setSelectedBrand}
+            setSelectedType={setSelectedType}
+            setSelectedPrice={setSelectedPrice}
+            selectedBrand={selectedBrand}
+            selectedType={selectedType}
+            selectedPrice={selectedPrice}
+          />
         </div>
         <div>
-          <Products phones={phones}></Products>
+          <Products phones={phones} />
+        </div>
+        <div className="pagination">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => setPage(index + 1)}
+              className={index + 1 === page ? "active" : ""}
+            >
+              {index + 1}
+            </button>
+          ))}
         </div>
       </div>
     </div>

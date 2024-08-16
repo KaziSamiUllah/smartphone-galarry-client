@@ -8,7 +8,7 @@ const Products = ({phones}) => {
       {phones?.map((phone, idx) => (
         <ProductCard key={idx} phone={phone}></ProductCard>
       ))}
-      <ProductCard></ProductCard>
+    
     </div>
   );
 };

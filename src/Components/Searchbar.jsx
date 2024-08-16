@@ -1,14 +1,24 @@
-import { FaSearch } from 'react-icons/fa';
+import { useState } from "react";
 
-const Searchbar = () => {
-    return (
-        <div className='flex text-black my-10 '>
-            <input placeholder='Search products' className='bg-slate-200 rounded-full px-5  text-2xl' type="text" />
-            <button className='-translate-x-12 flex justify-center items-center m-3 text-2xl'>
-            <FaSearch />
-            </button>
-        </div>
-    );
+const Searchbar = ({ handleSearch }) => {
+  const [input, setInput] = useState("");
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleSearch(input);
+  };
+
+  return (
+    <form onSubmit={onSubmit}>
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Search for phones..."
+      />
+      <button type="submit">Search</button>
+    </form>
+  );
 };
 
 export default Searchbar;
