@@ -15,7 +15,7 @@ const Categories = ({
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/category")
+      .get("https://search-and-sort-server.vercel.app/category")
       .then((res) => {
         setPhonesData(res.data);
       })

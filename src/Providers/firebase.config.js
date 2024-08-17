@@ -1,12 +1,12 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_APIKEY,
-  authDomain: import.meta.env.VITE_AUTHDOMAIN,
-  projectId: import.meta.env.VITE_PROJECTID,
-  storageBucket: import.meta.env.VITE_STORAGEBUCKET,
-  messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
-  appId: import.meta.env.VITE_APPID,
+  apiKey: "AIzaSyDnLcbF4rxIDGNScSVKRQMOIZpg4zBnWAE",
+  authDomain: "readopia-a11-t008.firebaseapp.com",
+  projectId: "readopia-a11-t008",
+  storageBucket: "readopia-a11-t008.appspot.com",
+  messagingSenderId: "451368359571",
+  appId: "1:451368359571:web:59034aab4174430dc31f66"
 };
 
 // Initialize Firebase

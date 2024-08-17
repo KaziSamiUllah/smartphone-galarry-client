@@ -4,6 +4,7 @@ import Filters from "../Components/Sorting";
 import Products from "../Components/Products";
 import Searchbar from "../Components/Searchbar";
 import Sorting from "../Components/Sorting";
+import NavBar from "../Components/NavBar";
 
 const HomePage = () => {
   const [phones, setPhones] = useState([]);
@@ -17,7 +18,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchPhones = () => {
-      let url = `http://localhost:5000/phones?search=${search}&page=${page}&limit=10&sortBy=${sortBy}`;
+      let url = `https://search-and-sort-server.vercel.app/phones?search=${search}&page=${page}&limit=10&sortBy=${sortBy}`;
 
       if (selectedBrand) {
         url += `&brand=${selectedBrand}`;
@@ -59,7 +60,9 @@ const HomePage = () => {
 
   return (
     <div>
+      <NavBar></NavBar>
       <div className="mx-16 my-10">
+      
         <div className="grid grid-cols-2">
           <Searchbar handleSearch={handleSearch} />
           <Sorting setSortBy={setSortBy} sortBy={sortBy} />
