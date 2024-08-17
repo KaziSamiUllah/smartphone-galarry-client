@@ -4,12 +4,13 @@ import { FaUserCircle } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
-  const { user, signOut } = useContext(AuthContext);
+  // const { user, signOut } = useContext(AuthContext);
 
-  console.log(user);
+  // console.log(user);
+  const user = true;
 
   const handleSignOut = () => {
-    signOut().then().catch();
+    // signOut().then().catch();
   };
 
   return (

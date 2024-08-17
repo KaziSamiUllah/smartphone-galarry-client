@@ -7,7 +7,7 @@ import { AuthContext } from "../Providers/AuthProvider";
 
 const Register = () => {
   const { SignUp, UpdateUserData } = useContext(AuthContext);
-const  Navigate = useNavigate()
+  const Navigate = useNavigate();
   const handleRegister = (e) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
@@ -15,7 +15,7 @@ const  Navigate = useNavigate()
     const password = form.get("password");
     const userName = form.get("name");
     const url = form.get("url");
-    const librarian= form.get("librarian") === 'on';
+  
 
     const validPass = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!validPass.test(password)) {
@@ -30,37 +30,10 @@ const  Navigate = useNavigate()
       SignUp(email, password)
         .then((res) => {
           console.log(res.user);
-          if (res.user) {
-            const user = res.user;
-            const userEmail = user?.email;
-            const userData = { userEmail, librarian };
-            axios.post("https://readopia-server-one.vercel.app/users", userData).then((res2) => {
-              console.log(res2.data);
-              console.log(userData);
-            });
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "User has been created",
-              showConfirmButton: false,
-              timer: 1500,
-            });
+          if(res.user){
+            Navigate("/")
           }
         })
-        .then(() => {
-          UpdateUserData(userName, url)
-            .then(() => {
-              ("Profile Updated Successfully");
-              Navigate('/');
-            })
-            .catch((error) => {
-              toast(
-                "Sorry! Something wrong occured while updateing username or photo URL"
-              );
-              error;
-            });
-        });
-        
     }
   };
 
@@ -108,21 +81,6 @@ const  Navigate = useNavigate()
                     className="appearance-none rounded-r-md relative block w-full px-3 py-2 border bg-transparent border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     placeholder="Password"
                   />
-                </div>
-                <div className="flex flex-col items-left gap-2">
-                  <div className="flex gap-2">
-                    <input
-                      type="checkbox"
-                      name="librarian"
-                      title="Can varify by Employee ID"
-                    />{" "}
-                    <h1 className="text-black">Are you a librarian here?</h1>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <input type="checkbox" required />
-                    <h1 className="text-black">Accept Terms and conditions.</h1>
-                  </div>
                 </div>
                 <button
                   type="submit"
