@@ -5,9 +5,11 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { AuthContext } from "../Providers/AuthProvider";
 
+
 const Register = () => {
-  const { SignUp, UpdateUserData } = useContext(AuthContext);
+  const {signUp} = useContext(AuthContext);
   const Navigate = useNavigate();
+
   const handleRegister = (e) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
@@ -15,25 +17,29 @@ const Register = () => {
     const password = form.get("password");
     const userName = form.get("name");
     const url = form.get("url");
-  
 
-    const validPass = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
-    if (!validPass.test(password)) {
-      if (password.length < 6) {
-        toast("Password must be at least 6 characters long.");
-      } else if (!/(?=.*[a-z])/.test(password)) {
-        toast("Password must contain at least one lowercase letter.");
-      } else if (!/(?=.*[A-Z])/.test(password)) {
-        toast("Password must contain at least one uppercase letter.");
-      }
-    } else {
-      SignUp(email, password)
-        .then((res) => {
-          console.log(res.user);
-          if(res.user){
-            Navigate("/")
-          }
-        })
+    signUp(email, password)
+    .then(result => {
+      console.log(result.user)
+      Navigate(location?.state ? location.state : '/')
+  })
+
+    
+
+    console.log(email, password);
+    // const validPass = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    // if (!validPass.test(password)) {
+    //   if (password.length < 6) {
+    //     toast("Password must be at least 6 characters long.");
+    //   } else if (!/(?=.*[a-z])/.test(password)) {
+    //     toast("Password must contain at least one lowercase letter.");
+    //   } else if (!/(?=.*[A-Z])/.test(password)) {
+    //     toast("Password must contain at least one uppercase letter.");
+    //   }
+    // } 
+    // else 
+    {
+      // SignUp(email, password);
     }
   };
 

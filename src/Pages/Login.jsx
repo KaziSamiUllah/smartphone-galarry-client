@@ -8,9 +8,9 @@ import { AuthContext } from "../Providers/AuthProvider";
 
 
 const Login = () => {
-    const { SingIn, signInWithGoogle } = useContext(AuthContext)
-  const Navigate = useNavigate();
-  const location = useLocation();
+    const { signIn, signInWithGoogle } = useContext(AuthContext)
+    const location = useLocation();
+    const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
 
   const toggleView = () => {
@@ -24,21 +24,34 @@ const Login = () => {
     const email = form.get("email");
     const password = form.get("password");
 
-    SingIn(email, password)
-    .then((res)=>{
-      ( res.user?.displayName)
-        toast(`welcome back ${res.user?.displayName}`)
-        Navigate('/')
+    signIn(email, password)
+    .then(result => {
+        console.log(result.user)
+        navigate(location?.state ? location.state : '/')
     })
-    .catch(error=>{ 
-      toast(error.message)
+
+    .catch(error => {
+        console.error(error);
     })
     
   };
 
-  const handleGoogleLogIn = () => {
-    signInWithGoogle();
-  };
+  // const handleGoogleLogIn = () => {
+  //   signInWithGoogle();
+  // };
+
+
+  const handleGoogleLogIn = googleProvider => {
+    googleProvider()
+        .then(result => {
+            console.log(result.user)
+            navigate(location?.state ? location.state : '/')
+        })
+        .catch(error => {
+            console.error(error);
+        })
+
+}
 
 
   return (
@@ -96,7 +109,7 @@ const Login = () => {
               </h2>
             </form>
             <div
-              onClick={handleGoogleLogIn}
+              onClick={() => handleGoogleLogIn(signInWithGoogle)}
               className="text-black mt-5 text-4xl  flex w-fit mx-auto btn rounded-full px-1"
             >
               <FcGoogle />

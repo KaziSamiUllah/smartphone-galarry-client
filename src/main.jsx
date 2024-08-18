@@ -31,25 +31,25 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      // <ProtectedRoute>
+      <ProtectedRoute>
         <HomePage></HomePage>
-      // </ProtectedRoute>
+      </ProtectedRoute>
     ),
   },
-  // {
-  //   path: "/login",
-  //   element: <Login></Login>,
-  // },
-  // {
-  //   path: "/register",
-  //   element: <Register></Register>,
-  // },
+  {
+    path: "/login",
+    element: <Login></Login>,
+  },
+  {
+    path: "/register",
+    element: <Register></Register>,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    {/* <AuthProviders> */}
-      <RouterProvider router={router} />
-    {/* </AuthProviders> */}
+    <AuthProviders>
+    <RouterProvider router={router} />
+    </AuthProviders>
   </React.StrictMode>
 );
