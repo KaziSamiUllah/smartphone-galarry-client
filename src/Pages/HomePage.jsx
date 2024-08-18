@@ -39,9 +39,9 @@ const HomePage = () => {
           let sortedPhones = [...data.phones];
 
           if (sortBy === "PriceToHigh") {
-            sortedPhones.sort((a, b) => b.Price - a.Price);
-          } else if (sortBy === "PriceToLow") {
             sortedPhones.sort((a, b) => a.Price - b.Price);
+          } else if (sortBy === "PriceToLow") {
+            sortedPhones.sort((a, b) => b.Price - a.Price);
           } else if (sortBy === "Newest") {
             sortedPhones.sort((a, b) => a.CreationDate - b.CreationDate);
           }
