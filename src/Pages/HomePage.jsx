@@ -5,6 +5,7 @@ import Products from "../Components/Products";
 import Searchbar from "../Components/Searchbar";
 import Sorting from "../Components/Sorting";
 import NavBar from "../Components/NavBar";
+import Footer from "../Components/Footer";
 
 const HomePage = () => {
   const [phones, setPhones] = useState([]);
@@ -62,8 +63,7 @@ const HomePage = () => {
     <div>
       <NavBar></NavBar>
       <div className="mx-16 my-10">
-      
-        <div className="grid grid-cols-2">
+        <div className="flex flex-col lg:flex-row items-center gap-5 lg:justify-between">
           <Searchbar handleSearch={handleSearch} />
           <Sorting setSortBy={setSortBy} sortBy={sortBy} />
         </div>
@@ -78,21 +78,39 @@ const HomePage = () => {
             selectedPrice={selectedPrice}
           />
         </div>
-        <div>
-          <Products phones={phones} />
-        </div>
-        <div className="pagination">
+        <div className="pagination text-3xl my-10 mx-5 space-x-5 text-center">
+          <button
+            onClick={() => setPage(page - 1)}
+            className="bg-blue-200 rounded-lg p-2 w-40"
+          >
+            Previous
+          </button>
           {Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index}
               onClick={() => setPage(index + 1)}
-              className={index + 1 === page ? "active" : ""}
+              className={
+                index + 1 === page
+                  ? "font-bold text-4xl bg-blue-300 p-2 rounded-lg"
+                  : ""
+              }
             >
               {index + 1}
             </button>
           ))}
+           <button
+            onClick={() => setPage(page + 1)}
+            className="bg-blue-200 rounded-lg p-2 w-40"
+          >
+            Next
+          </button>
+        </div>
+
+        <div>
+          <Products phones={phones} />
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 };
